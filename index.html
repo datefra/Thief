@@ -1,0 +1,2669 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Archivio TRUFFATORI - Anti Duplicati</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            /* sfondo scuro */
+            --panel: #111735;
+            /* pannelli */
+            --card: #0f1630;
+            /* card */
+            --muted: #8691b1;
+            /* testo secondario */
+            --text: #e8eeff;
+            /* testo */
+            --accent: #00e5ff;
+            /* ciano neon */
+            --accent2: #39ff88;
+            /* verde neon */
+            --danger: #ff4d6d;
+            /* rosso */
+            --warn: #ffd166;
+            /* giallo */
+            --ok: #4ade80;
+            /* verde */
+            --shadow: 0 10px 30px rgba(0, 0, 0, .45);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html, body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+            background: linear-gradient(180deg, #080d1c, #0b1020 40%, #0b1020);
+            color: var(--text);
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+            background: linear-gradient(180deg, rgba(8, 13, 28, .9), rgba(8, 13, 28, .6));
+            border-bottom: 1px solid rgba(0, 229, 255, .15);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: .15em;
+            text-transform: uppercase
+        }
+
+        .badge {
+            font-size: 11px;
+            color: #08101f;
+            background: var(--accent);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            letter-spacing: .06em
+        }
+
+        .grid {
+            display: grid;
+            gap: 16px
+        }
+
+        .toolbar {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: 1fr;
+            align-items: center;
+            padding: 12px 20px 20px
+        }
+
+        @media (min-width: 860px) {
+            .toolbar {
+                grid-template-columns: 1fr auto
+            }
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: var(--panel);
+            border: 1px solid rgba(0, 229, 255, .18);
+            border-radius: 14px;
+            padding-right: 12px;
+            box-shadow: var(--shadow)
+        }
+
+        .search {
+            flex: 1;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 0 10px 12px;
+        }
+
+        .search input {
+            flex: 1;
+            background: transparent;
+            border: 0;
+            outline: none;
+            color: var(--text);
+            font-size: 16px
+        }
+
+        .search-container select {
+            background: transparent;
+            border: 0;
+            border-left: 1px solid rgba(0, 229, 255, .18);
+            color: var(--muted);
+            padding: 8px;
+            border-radius: 0;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .search-container select:focus {
+            outline: none;
+        }
+
+        .btn {
+            appearance: none;
+            border: 1px solid rgba(0, 229, 255, .22);
+            background: linear-gradient(180deg, #0d1636, #0a1330);
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: .15s;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            font-weight: 600
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 229, 255, .12)
+        }
+
+        .btn.primary {
+            border-color: rgba(57, 255, 136, .35);
+            box-shadow: inset 0 0 0 1px rgba(57, 255, 136, .25)
+        }
+
+        .btn.danger {
+            border-color: rgba(255, 77, 109, .4);
+            color: #ffdfe6
+        }
+
+        .btn.warn {
+            border-color: rgba(255, 209, 102, .35);
+        }
+
+        .btn.ghost {
+            background: transparent
+        }
+
+        .layout {
+            display: grid;
+            gap: 16px
+        }
+
+        @media (min-width: 1024px) {
+            .layout {
+                grid-template-columns: 380px 1fr
+            }
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid rgba(0, 229, 255, .16);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: var(--shadow)
+        }
+
+        .panel h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            letter-spacing: .08em;
+            color: #cfe8ff;
+            text-transform: uppercase
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0 6px;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        form input[type="text"], form input[type="tel"], form input[type="email"], form textarea, form select {
+            width: 100%;
+            background: linear-gradient(180deg, #0a1330, #0a1436);
+            border: 1px solid rgba(0, 229, 255, .18);
+            color: var(--text);
+            padding: 10px;
+            border-radius: 10px;
+            outline: none
+        }
+
+        form select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        form textarea {
+            min-height: 80px;
+            resize: vertical
+        }
+
+        input:required:invalid {
+            border-color: var(--danger) !important;
+        }
+
+        .row {
+            display: grid;
+            gap: 10px
+        }
+
+        .row.two {
+            grid-template-columns: 1fr 1fr
+        }
+
+        .row.three {
+            grid-template-columns: 1fr 1fr 1fr
+        }
+
+        @media (max-width: 520px) {
+            .row.two, .row.three {
+                grid-template-columns: 1fr
+            }
+        }
+
+        #emptyState {
+            display: none;
+            color: var(--muted);
+            padding: 40px 16px;
+            text-align: center;
+            border: 2px dashed rgba(0, 229, 255, .1);
+            border-radius: 12px;
+        }
+
+        #emptyState svg {
+            margin-bottom: 12px;
+        }
+
+        .thumbs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .thumb {
+            width: 72px;
+            height: 72px;
+            border-radius: 10px;
+            border: 1px dashed rgba(0, 229, 255, .25);
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .thumb .x {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(0, 0, 0, .5);
+            border: 0;
+            border-radius: 8px;
+            color: #fff;
+            width: 18px;
+            height: 18px;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            cursor: pointer
+        }
+
+        .list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid rgba(0, 229, 255, .14);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column
+        }
+
+        .card .pic {
+            height: 160px;
+            background: #0b132b;
+            display: grid;
+            place-items: center;
+            overflow: hidden
+        }
+
+        .card .pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(1.05)
+        }
+
+        .card .pic {
+            position: relative
+        }
+
+        .card .meta {
+            padding: 12px 12px 14px
+        }
+
+        .card .name {
+            font-weight: 800
+        }
+
+        .pill {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border: 1px solid rgba(0, 229, 255, .22);
+            border-radius: 999px;
+            color: #cde7ff;
+            margin-top: 6px;
+            margin-right: 4px;
+        }
+
+        .footerNote {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 10px
+        }/* Modal */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .55);
+            backdrop-filter: blur(4px);
+            z-index: 100
+        }
+
+        .modal.show {
+            display: flex
+        }
+
+        .sheet {
+            max-width: 900px;
+            width: 96%;
+            background: var(--panel);
+            border: 1px solid rgba(0, 229, 255, .2);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden
+        }
+
+        .sheet .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(0, 229, 255, .14)
+        }
+
+        .sheet .body {
+            display: grid;
+            gap: 14px;
+            padding: 14px
+        }
+
+        .detailGrid {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 16px
+        }
+
+        @media (max-width: 720px) {
+            .detailGrid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .bigimg {
+            width: 100%;
+            max-height: 100%;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 229, 255, .18);
+            object-fit: contain
+        }
+
+        .kv {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 8px;
+            font-size: 14px
+        }
+
+        .kv div {
+            padding: 6px 8px;
+            background: #0d1636;
+            border: 1px solid rgba(0, 229, 255, .1);
+            border-radius: 8px
+        }
+
+        .photos {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .photos img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 229, 255, .14);
+            cursor: pointer
+        }
+
+        .links a {
+            display: inline-block;
+            margin: 2px 6px 0 0;
+            font-size: 13px
+        }/* Fullscreen image viewer */
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 120
+        }
+
+        .lightbox.show {
+            display: flex
+        }
+
+        .lightbox img {
+            max-width: 92vw;
+            max-height: 88vh;
+            border-radius: 10px
+        }/* Toast Notifications */
+
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            padding: 12px 18px;
+            border-radius: 12px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateX(100%);
+            animation: toast-in 0.5s forwards;
+        }
+
+        .toast.ok {
+            background: #153d34;
+            border-color: var(--ok);
+        }
+
+        .toast.warn {
+            background: #4d4023;
+            border-color: var(--warn);
+        }
+
+        .toast.danger {
+            background: #581a2f;
+            border-color: var(--danger);
+        }
+
+        @keyframes toast-in {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes toast-out {
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }/* Print layout for PDF */
+
+        {
+            body {
+                background: #fff;
+                color: #000
+            }
+
+            .no-print {
+                display: none !important
+            }
+        }/* FIX immagini home: eliminazione spazi vuoti e riempimento completo */
+
+        .card .pic img, .thumb img, .photos img, .bigimg {
+            display: block;
+        }
+
+        .card .pic {
+            aspect-ratio: 1 / 1;
+            height: auto;
+            overflow: hidden;
+        }
+
+        .card .pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            filter: saturate(1.05);
+        }/* FIX mobile: modal e schede scrollabili su smartphone */
+        .modal {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .sheet {
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sheet .body {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .lightbox {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }/* Evita locking verticale in layout complessi */
+        .wrap, .layout {
+            min-height: auto;
+        }/* iOS: evita che 100% blocchi scroll se parent non cresce */
+        html, body {
+            min-height: 100%;
+            height: auto;
+        }
+
+        .counts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .count-card {
+            background: var(--card);
+            border: 1px solid rgba(0, 229, 255, .18);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform .15s;
+        }
+
+        .count-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .count-card .label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            letter-spacing: .05em;
+        }
+
+        .count-card .value {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .count-card.person .value {
+            color: var(--accent2);
+        }
+
+        .count-card.fake .value {
+            color: var(--danger);
+        }
+
+        .count-card.simple .value {
+            color: var(--warn);
+        }
+
+        .count-card {
+            cursor: pointer;
+        }
+
+        .count-card.active {
+            outline: 2px solid var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 229, 255, .15);
+        }/* Drag & Drop backup import */
+
+        .dropzone {
+            margin: 8px 20px 16px;
+            border: 2px dashed rgba(0, 229, 255, .25);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            color: var(--muted);
+            transition: background .15s, border-color .15s, color .15s;
+        }
+
+        .dropzone.dragover {
+            background: rgba(0, 229, 255, .06);
+            border-color: rgba(0, 229, 255, .6);
+            color: var(--text);
+        }/* Flag badge (Recidivo/Pericoloso) */
+
+        /* Fresh badge (domain registered 
+        
+        <
+        
+        6 months) * /
+        .fresh-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(255, 209, 102, .15);
+            border: 1px solid rgba(255, 209, 102, .7);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .35);
+            display: none;
+            place-items: center;
+            font-size: 16px;
+        }
+
+        .fresh-badge.show {
+            display: grid;
+        }
+
+        .flag-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(255, 77, 109, .15);
+            border: 1px solid rgba(255, 77, 109, .6);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .35);
+            display: none;
+            place-items: center;
+            font-size: 16px;
+        }
+
+        .flag-badge.show {
+            display: grid;
+        }/* Backup dropdown */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown .menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--panel);
+            border: 1px solid rgba(0, 229, 255, .18);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 6px;
+            display: none;
+            min-width: 200px;
+            z-index: 60;
+        }
+
+        .dropdown .menu.show {
+            display: block;
+        }
+
+        .dropdown .menu .menu-item {
+            width: 100%;
+            text-align: left;
+            padding: 8px 10px;
+            border: 0;
+            background: transparent;
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .dropdown .menu .menu-item:hover {
+            background: rgba(0, 229, 255, .08);
+        }/* === Pill colors aligned to category counts === */
+        .card[data-type="person"] .pill {
+            color: var(--ok) !important;
+            border-color: var(--ok) !important;
+        }
+
+        .card[data-type="fakeSite"] .pill {
+            color: var(--danger) !important;
+            border-color: var(--danger) !important;
+        }
+
+        .card[data-type="simplified"] .pill {
+            color: var(--warn) !important;
+            border-color: var(--warn) !important;
+        }/* Phone rows styling */
+        .phone-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 6px;
+        }/* === MATRIX PIN GATE === */
+        .pin-gate {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            place-items: center;
+            background: #000;
+        }
+
+        .pin-gate.show {
+            display: grid;
+        }
+
+        .pin-gate canvas#matrix {
+            position: absolute;
+            inset: 0;
+            opacity: .6;
+        }
+
+        .pin-gate .gate-card {
+            position: relative;
+            background: linear-gradient(180deg, #051607, #071b0a);
+            border: 1px solid rgba(57, 255, 136, .35);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(57, 255, 136, .2);
+            color: #c9ffdf;
+            border-radius: 16px;
+            padding: 20px;
+            width: min(92vw, 420px);
+        }
+
+        .gate-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px
+        }
+
+        .gate-title {
+            font-size: 16px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: #b7ffd1
+        }
+
+        .lock-ico {
+            width: 26px;
+            height: 26px;
+            flex: 0 0 26px
+        }
+
+        .pin-dots {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 14px 0 10px
+        }
+
+        .pin-dots .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #39ff88;
+            background: transparent;
+            box-shadow: 0 0 14px rgba(57, 255, 136, .35) inset
+        }
+
+        .pin-dots .dot.fill {
+            background: #39ff88
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px
+        }
+
+        .keypad button {
+            background: linear-gradient(180deg, #0b2d12, #093015);
+            border: 1px solid rgba(57, 255, 136, .35);
+            color: #d7ffe6;
+            font-weight: 800;
+            font-size: 18px;
+            padding: 12px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: inset 0 0 0 1px rgba(57, 255, 136, .2);
+        }
+
+        .keypad button:hover {
+            transform: translateY(-1px)
+        }
+
+        .keypad button.action {
+            font-size: 13px;
+            font-weight: 700
+        }
+
+        .gate-msg {
+            font-size: 12px;
+            color: #99e8b8;
+            text-align: center;
+            margin-top: 8px;
+            min-height: 18px
+        }
+
+        .gate-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 8px;
+            margin-top: 10px;
+            align-items: center
+        }
+
+        .gate-row .btn {
+            border-color: rgba(57, 255, 136, .35)
+        }
+
+        .gate-card.error {
+            animation: shake .3s linear 1
+        }
+
+        @keyframes shake {
+            0% {
+                transform:translateX(0)
+            }
+
+            25% {
+                transform:translateX(-8px)
+            }
+
+            50% {
+                transform:translateX(8px)
+            }
+
+            75% {
+                transform:translateX(-4px)
+            }
+
+            100% {
+                transform: translateX(0)
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="pinGate" class="pin-gate" aria-hidden="true">
+        <canvas id="matrix">
+        </canvas>
+        <div class="gate-card" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+            <div class="gate-head">
+                <svg class="lock-ico" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <rect x="5" y="10" width="14" height="10" rx="2" stroke="#39ff88" stroke-width="2"/>
+                    <path d="M8 10V8a4 4 0 0 1 8 0v2" stroke="#39ff88" stroke-width="2"/>
+                </svg>
+                <div class="gate-title" id="gateTitle">Accesso protetto</div>
+            </div>
+            <div id="gateSubtitle" style="font-size:14px;color:#9af9bf;text-align:center">Inserisci PIN</div>
+            <div class="pin-dots" id="pinDots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="keypad">
+                <button data-key="1">1</button>
+                <button data-key="2">2</button>
+                <button data-key="3">3</button>
+                <button data-key="4">4</button>
+                <button data-key="5">5</button>
+                <button data-key="6">6</button>
+                <button data-key="7">7</button>
+                <button data-key="8">8</button>
+                <button data-key="9">9</button>
+                <button class="action" data-action="clear">Cancella</button>
+                <button data-key="0">0</button>
+                <button class="action" data-action="back">Indietro</button>
+            </div>
+            <div class="gate-row">
+                <div class="gate-msg" id="gateMsg"></div>
+                <button class="btn" id="gateCancel" type="button">Chiudi</button>
+                <button class="btn primary" id="gateConfirm" type="button" disabled>Accedi</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="no-print">
+        <div class="brand wrap">
+            <div class="badge">FBI MODE</div>
+            <h1>Archivio Truffatori • Registro personale offline</h1>
+        </div>
+        <div class="toolbar wrap">
+            <div class="search-container">
+                <div class="search">
+                    <svg fill="none" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 21l-4.35-4.35" stroke="var(--accent)" stroke-linecap="round" stroke-width="2"></path>
+                        <circle cx="11" cy="11" r="7" stroke="#7ad7ff" stroke-width="2"></circle>
+                    </svg>
+                    <input id="q" placeholder="Cerca per nome, sito, tipo di truffa..."/>
+                    <button class="btn ghost" id="clearSearch">✕</button>
+                </div>
+                <select id="typeFilter">
+                    <option value="all">Tutti i tipi</option>
+                    <option value="person">Persone</option>
+                    <option value="fakeSite">Siti Fake</option>
+                    <option value="simplified">Semplici</option>
+                </select>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+
+                <button class="btn primary" id="newBtn">+ Nuova scheda</button>
+
+                <!-- Backup dropdown -->
+                <div class="dropdown">
+                    <button class="btn" id="backupMenuBtn">Backup ▾</button>
+                    <div class="menu" id="backupMenu">
+                        <button class="menu-item" id="backupJson" type="button">Solo JSON</button>
+                        <button class="menu-item" id="backupZip" type="button">ZIP con foto</button>
+                    </div>
+                </div>
+
+                <!-- Import -->
+                <label class="btn" for="restoreFile">Carica Backup</label>
+                <input accept=".zip,.json,application/zip,application/json" id="restoreFile" style="display:none" type="file"/>
+
+                <button class="btn warn" id="helpBtn">Aiuto rapido</button>
+
+                <!-- NUOVO: Pulsante per rimuovere duplicati -->
+                <button class="btn warn" id="removeDuplicatesBtn" type="button">🔄 Rimuovi duplicati</button>
+
+                <!-- Pulsante per cancellare tutto il database -->
+                <button class="btn danger" id="clearAllBtn" type="button">🗑️ Cancella tutto dal DB</button>
+
+                <button class="btn" id="pinSettingsBtn" type="button">🔒 Aggiungi PIN locale</button>
+            </div>
+            <div id="dropZone" class="dropzone no-print">📦 Trascina qui un backup (.zip o .json) per importare</div>
+        </div>
+    </header>
+    <main class="wrap layout">
+        <section class="panel" id="formPanel">
+            <h3 id="formTitle">Nuova scheda</h3>
+            <form id="profileForm" novalidate="">
+                <input id="profileId" type="hidden"/>
+                <div>
+                    <label>Tipo di Scheda</label>
+                    <select id="recordType">
+                        <option value="person">Persona</option>
+                        <option value="fakeSite">Sito Fake</option>
+                        <option value="simplified">Scheda Semplice</option>
+                    </select>
+                </div>
+                <div class="form-section" data-type="person">
+                    <div class="row two">
+                        <div>
+                            <label>Nome</label>
+                            <input id="firstName" type="text"/>
+                        </div>
+                        <div>
+                            <label>Cognome</label>
+                            <input id="lastName" type="text"/>
+                        </div>
+                    </div>
+                    <div class="row two">
+                        <div>
+                            <label>Tipo di truffa</label>
+                            <input id="scamType" placeholder="Phishing, Finto corriere, Vishing..." type="text"/>
+                        </div>
+                        <div>
+                            <label>Località colpite</label>
+                            <input id="cities" placeholder="Es. Bari; Monopoli; online" type="text"/>
+                        </div>
+                    </div>
+                    <div class="row two">
+                        <div>
+                            <label>Possibile residenza</label>
+                            <input id="residenceHint" placeholder="Es. provincia di Bari" type="text"/>
+                        </div>
+                        <div>
+                            <label>Telefono</label>
+                            <div id="phonesList"></div>
+                            <button class="btn ghost" id="addPhone" type="button">+ Aggiungi</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        <input id="email" type="email" placeholder="es. nome@dominio.com"/>
+                    </div>
+                    <div>
+                        <label>Descrizione del modus operandi</label>
+                        <textarea id="description" placeholder="Come opera nelle truffe, pattern ricorrenti..."></textarea>
+                    </div>
+                    <div class="row two">
+                        <div>
+                            <label>Alias / soprannomi usati</label>
+                            <input id="aliases" type="text" placeholder="Es. 'Il Dottore'; 'MarioRossi84'"/>
+                        </div>
+                        <div>
+                            <label>IBAN / Carte</label>
+                            <input id="ibanCards" type="text" placeholder="Es. IT60X...; Carta Visa **** 1234"/>
+                            <!-- New Button to verify IBAN -->
+                            <button class="btn primary" id="verifyIbanBtn" type="button" onclick="window.open('https://www.verificaiban.com/', '_blank')">Verifica IBAN</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Segni particolari</label>
+                        <input id="marks" placeholder="Tatuaggi, cicatrici, accento, ecc." type="text"/>
+                    </div>
+                    <div>
+                        <label style="display:flex;align-items:center;gap:10px">
+                            <input id="dangerous" type="checkbox" style="width:18px;height:18px;accent-color:#ff4d6d">
+
+                                Flag "Recidivo/Pericoloso" (mostra 🔥 nelle card)
+                              
+                        </label>
+                    </div>
+                    <div>
+                        <label>Link utili (Facebook, TikTok, ecc.)</label>
+                        <div id="linksList"></div>
+                        <button class="btn ghost" id="addLink" type="button">+ Aggiungi link</button>
+                    </div>
+                </div>
+                <div class="form-section" data-type="fakeSite" style="display: none;">
+                    <div>
+                        <label>Nome Sito</label>
+                        <input id="siteName" placeholder="Es. ScarpeOccasioni" required="" type="text"/>
+                    </div>
+                    <div>
+                        <label>Link Sito</label>
+                        <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
+                            <input id="siteUrl" placeholder="https://www.esempio.com" type="text"/>
+                            <button class="btn" id="whoisBtn" type="button" title="Recupera info dominio (RDAP)">WHOIS</button>
+                        </div>
+                        <div id="whoisInfo" style="font-size:12px;color:var(--muted);margin-top:6px"></div>
+                        <input id="siteRegDate" type="hidden"/>
+                    </div>
+                    <div>
+                        <label>Cosa Vende</label>
+                        <input id="siteProducts" placeholder="Elettronica, abbigliamento..." type="text"/>
+                    </div>
+                    <div>
+                        <label>Numeri di telefono</label>
+                        <div id="fakeSitePhonesList"></div>
+                        <button class="btn ghost" id="addFakeSitePhone" type="button">+ Aggiungi</button>
+                    </div>
+                </div>
+                <div class="form-section" data-type="simplified" style="display: none;">
+                    <div class="row two">
+                        <div>
+                            <label>Nome</label>
+                            <input id="simpleFirstName" type="text"/>
+                        </div>
+                        <div>
+                            <label>Cognome</label>
+                            <input id="simpleLastName" type="text"/>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Tipo di truffa</label>
+                        <input id="simpleScamType" placeholder="Phishing, Finto corriere..." type="text"/>
+                    </div>
+                </div>
+                <div class="row two" style="margin-top:14px">
+                    <div>
+                        <label>Foto principale</label>
+                        <input accept="image/*" id="mainPhoto" type="file"/>
+                        <div class="thumbs" id="mainPreview"></div>
+                    </div>
+                    <div>
+                        <label>Altre foto (multiple)</label>
+                        <input accept="image/*" id="extraPhotos" multiple="" type="file"/>
+                        <div class="thumbs" id="extraPreview"></div>
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:14px">
+                    <button class="btn primary" id="saveBtn" type="submit">Salva scheda</button>
+                    <button class="btn ghost" id="resetBtn" type="button">Ripulisci</button>
+                    <button class="btn danger" id="deleteBtn" style="display:none" type="button">Elimina scheda</button>
+                </div>
+                <div class="footerNote">
+                    Consiglio: dopo aver inserito più schede, usa 
+                    <strong>Backup JSON</strong>
+                     per creare una copia di sicurezza che sopravvive anche alla pulizia della cache.
+                </div>
+            </form>
+        </section>
+        <section class="panel">
+            <h3>Archivio</h3>
+            <!-- NUOVO: riepilogo conteggi categorie -->
+            <div id="counts" class="counts-grid">
+
+                <div class="count-card all" data-filter="all">
+                    <div class="label">📊 Totali</div>
+                    <div class="value" id="countAll">0</div>
+                </div>
+                <div class="count-card person" data-filter="person">
+                    <div class="label">👤 Persone
+                    </div>
+                    <div class="value" id="countPerson">0</div>
+                </div>
+                <div class="count-card fake" data-filter="fakeSite">
+                    <div class="label">🌐 Siti Fake</div>
+                    <div class="value" id="countFake">0</div>
+                </div>
+                <div class="count-card simple" data-filter="simplified">
+                    <div class="label">📄 Semplici</div>
+                    <div class="value" id="countSimple">0</div>
+                </div>
+            </div>
+            <div class="list" id="cards"></div>
+            <div id="emptyState">
+                <svg fill="none" height="64" viewBox="0 0 24 24" width="64" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 16L12 12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="var(--muted)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <div>Nessuna scheda trovata.</div>
+                <div style="font-size: 13px; margin-top: 4px;">Aggiungi la prima usando il modulo a sinistra.</div>
+            </div>
+        </section>
+    </main>
+    <div class="modal" id="detailModal">
+        <div class="sheet">
+            <div class="head">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <div class="badge" id="detailBadge">Scheda completa</div>
+                    <div id="detailTitle" style="font-weight:800"></div>
+                </div>
+                <div class="no-print" style="display:flex;gap:8px">
+                    <button class="btn" id="editFromModal">Modifica</button>
+                    <button class="btn danger" id="deleteFromModal">Elimina</button>
+                    <button class="btn ghost" id="closeModal">Chiudi</button>
+                </div>
+            </div>
+            <div class="body">
+                <div class="detailGrid">
+                    <div>
+                        <img alt="foto principale" class="bigimg" id="detailBig"/>
+                    </div>
+                    <div id="detailMeta"></div>
+                </div>
+                <div id="detailDescContainer" style="display:none">
+                    <div style="font-weight:700;margin-bottom:6px">Descrizione</div>
+                    <div id="dDesc" style="white-space:pre-wrap;background:#0d1636;border:1px solid rgba(0,229,255,.1);padding:10px;border-radius:8px"></div>
+                </div>
+                <div id="detailLinksContainer" style="display:none">
+                    <div style="font-weight:700;margin-bottom:6px">Link utili</div>
+                    <div class="links" id="dLinks"></div>
+                </div>
+                <div>
+                    <div style="font-weight:700;margin-bottom:6px">Altre foto</div>
+                    <div class="photos" id="dPhotos"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lightbox" id="lightbox">
+        <img alt="preview" id="lightImg"/>
+    </div>
+    <div id="toast-container"></div>
+    <template id="cardTpl">
+        <div class="card" data-id="">
+            <div class="pic">
+                <div class="flag-badge" title="Recidivo/Pericoloso">🔥</div>
+                <div class="fresh-badge" title="Dominio recente: possibile rischio">⚠️</div>
+                <img alt="foto"/>
+            </div>
+            <div class="meta">
+                <div class="name"></div>
+                <div class="pills-container"></div>
+            </div>
+        </div>
+    </template>
+    <script>
+    // =============================
+    // IndexedDB helper
+    // =============================
+    const DB_NAME = 'TruffatoriDB';
+    const STORE = 'profiles';
+    const DB_VERSION = 1;
+
+    function openDB() {
+        return new Promise((resolve, reject) => {
+            const req = indexedDB.open(DB_NAME, DB_VERSION);
+            req.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains(STORE)) {
+                    const os = db.createObjectStore(STORE, {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    });
+                    os.createIndex('by_name', 'searchIndex');
+                }
+            };
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        });
+    }
+    function dbTx(db, mode='readonly') {
+        const tx = db.transaction(STORE, mode);
+        return [tx, tx.objectStore(STORE)];
+    }
+    async function addProfile(data) {
+        const db = await openDB();
+        const [tx, store] = dbTx(db, 'readwrite');
+        return new Promise((res, rej) => {
+            const req = store.add(data);
+            req.onsuccess = () => {
+                res(req.result)
+            };
+            req.onerror = () => rej(req.error);
+        });
+    }
+    async function updateProfile(data) {
+        const db = await openDB();
+        const [tx, store] = dbTx(db, 'readwrite');
+        return new Promise((res, rej) => {
+            const req = store.put(data);
+            req.onsuccess = () => res(true);
+            req.onerror = () => rej(req.error);
+        });
+    }
+    async function deleteProfile(id) {
+        const db = await openDB();
+        const [tx, store] = dbTx(db, 'readwrite');
+        return new Promise((res, rej) => {
+            const req = store.delete(Number(id));
+            req.onsuccess = () => res(true);
+            req.onerror = () => rej(req.error);
+        });
+    }
+    async function getAll() {
+        const db = await openDB();
+        const [tx, store] = dbTx(db, 'readonly');
+        return new Promise((res, rej) => {
+            const req = store.getAll();
+            req.onsuccess = () => res(req.result || []);
+            req.onerror = () => rej(req.error);
+        });
+    }
+    async function getOne(id) {
+        const db = await openDB();
+        const [tx, store] = dbTx(db, 'readonly');
+        return new Promise((res, rej) => {
+            const req = store.get(Number(id));
+            req.onsuccess = () => res(req.result || null);
+            req.onerror = () => rej(req.error);
+        });
+    }
+
+    // Nuova funzione per cancellare tutto il database
+    async function clearAllDatabase() {
+        const db = await openDB();
+        const [tx, store] = dbTx(db, 'readwrite');
+        return new Promise((res, rej) => {
+            const req = store.clear();
+            req.onsuccess = () => res(true);
+            req.onerror = () => rej(req.error);
+        });
+    }
+
+    // NUOVA FUNZIONE: Rimuove duplicati mantenendo solo il più recente
+    async function removeDuplicates() {
+        const all = await getAll();
+        if (all.length === 0) {
+            showToast('Nessuna scheda da analizzare per duplicati.', 'warn');
+            return;
+        }
+
+        // Raggruppa per signatureKey
+        const groups = new Map();
+        for (const profile of all) {
+            const sig = signatureKey(profile);
+            if (!groups.has(sig)) {
+                groups.set(sig, []);
+            }
+            groups.get(sig).push(profile);
+        }
+
+        // Trova gruppi con duplicati
+        const duplicateGroups = Array.from(groups.values()).filter(group => group.length > 1);
+
+        if (duplicateGroups.length === 0) {
+            showToast('Nessun duplicato trovato nel database.', 'ok');
+            return;
+        }
+
+        let removedCount = 0;
+
+        // Per ogni gruppo di duplicati, mantieni solo il più recente
+        for (const group of duplicateGroups) {
+            // Ordina per data (più recente prima): updatedAt > createdAt > id
+            group.sort((a, b) => {
+                const timeA = a.updatedAt || a.createdAt || 0;
+                const timeB = b.updatedAt || b.createdAt || 0;
+                if (timeA !== timeB)
+                    return timeB - timeA; // più recente prima
+                return (b.id || 0) - (a.id || 0); // se stessa data, preferisci ID più alto
+            });
+
+            // Mantieni il primo (più recente), elimina gli altri
+            for (let i = 1; i < group.length; i++) {
+                await deleteProfile(group[i].id);
+                removedCount++;
+            }
+        }
+
+        await renderList(); // Aggiorna la visualizzazione
+        showToast(`Duplicati rimossi: ${removedCount} schede. Mantenute solo le più recenti.`, 'ok');
+    }
+
+    // =============================
+    // Utils
+
+    // WHOIS Light (RDAP) helpers
+    function extractDomain(input) {
+        const s = (input || '').trim();
+        if (!s)
+            return '';
+        try {
+            const u = new URL(s.startsWith('http') ? s : ('http://' + s));
+            return (u.hostname || '').replace(/^www\./i, '');
+        } catch (_) {
+            return s.replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0];
+        }
+    }
+    async function queryRDAP(domain) {
+        const url = `https://rdap.org/domain/${encodeURIComponent(domain)}`;
+        const res = await fetch(url, {
+            mode: 'cors'
+        });
+        if (!res.ok)
+            throw new Error('RDAP HTTP ' + res.status);
+        return await res.json();
+    }
+    function rdapEventDate(obj, actionSubstr) {
+        const ev = (obj.events || []).find(e => (e.eventAction || '').toLowerCase().includes(actionSubstr));
+        return ev && ev.eventDate || '';
+    }
+    function rdapRegistrar(obj) {
+        const ent = (obj.entities || []).find(e => Array.isArray(e.roles) && e.roles.includes('registrar'));
+        if (!ent)
+            return '';
+        const vc = (ent.vcardArray && ent.vcardArray[1]) || [];
+        const fn = (vc.find(a => a[0] === 'fn') || [])[3];
+        const org = (vc.find(a => a[0] === 'org') || [])[3];
+        return fn || org || '';
+    }
+    // =============================
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    function el(tag, attrs={}) {
+        const n = document.createElement(tag);
+        Object.assign(n, attrs);
+        return n
+    }
+    function fileToDataURL(file) {
+        return new Promise((res, rej) => {
+            const fr = new FileReader();
+            fr.onload = () => res(fr.result);
+            fr.onerror = () => rej(fr.error);
+            fr.readAsDataURL(file)
+        });
+    }
+    function formatPhone(s) {
+        return s ? s.replace(/\\s+/g, ' ').trim() : ''
+    }
+    function showToast(message, type='ok') {
+        const container = $('#toast-container');
+        const toast = el('div', {
+            className: `toast ${type}`,
+            textContent: message
+        });
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.animation = 'toast-out 0.5s forwards';
+            toast.addEventListener('animationend', () => toast.remove());
+        }, 4000);
+    }
+    const safe = (s) => (s || '').toString().replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    function signatureKey(p) {
+        const t = p.recordType || 'person';
+        if (t === 'fakeSite') {
+            const name = (p.siteName || '').trim().toLowerCase();
+            return `fakeSite|${name}`;
+        }
+        const fn = (p.firstName || '').trim().toLowerCase();
+        const ln = (p.lastName || '').trim().toLowerCase();
+        const scam = (p.scamType || '').trim().toLowerCase();
+        return `${t}|${ln}_${fn}|${scam}`;
+    }
+
+    // =============================
+    // Form and UI State
+    // =============================
+    let mainPhotoData = null; // {name, dataUrl}
+    let extraPhotosData = []; // [{name, dataUrl}]
+
+    function renderThumb(container, dataUrl, removable=true, onRemove) {
+        const box = el('div', {
+            className: 'thumb'
+        });
+        const img = el('img', {
+            src: dataUrl
+        });
+        box.appendChild(img);
+        if (removable) {
+            const btn = el('button', {
+                className: 'x',
+                type: 'button'
+            });
+            btn.textContent = '×';
+            btn.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                onRemove && onRemove()
+            });
+            box.appendChild(btn);
+        }
+        container.appendChild(box);
+    }
+
+    function clearForm() {
+        $('#profileForm').reset();
+        $('#profileId').value = '';
+        $('#recordType').value = 'person';
+
+
+
+
+        $$('#profileForm input, #profileForm textarea').forEach(i => i.classList.remove('invalid'));
+        const dEl = document.getElementById('dangerous');
+        if (dEl)
+            dEl.checked = false;
+
+        $('#linksList').innerHTML = '';
+        addLinkRow();
+        $('#phonesList').innerHTML = '';
+        addPhoneRow();
+        $('#fakeSitePhonesList').innerHTML = '';
+        addFakeSitePhoneRow();
+        mainPhotoData = null;
+        $('#mainPhoto').value = '';
+        $('#mainPreview').innerHTML = '';
+        extraPhotosData = [];
+        $('#extraPhotos').value = '';
+        $('#extraPreview').innerHTML = '';
+        $('#deleteBtn').style.display = 'none';
+        $('#formTitle').textContent = 'Nuova scheda';
+        $('#saveBtn').textContent = 'Salva scheda';
+        handleRecordTypeChange();
+    }
+
+    // Phone management functions
+    function addPhoneRow(phoneNumber='') {
+        const row = el('div', {
+            className: 'phone-row'
+        });
+
+        const phoneInput = el('input', {
+            type: 'tel',
+            placeholder: 'Es. +39 3xx xxx xxxx',
+            value: phoneNumber
+        });
+
+        const removeBtn = el('button', {
+            type: 'button',
+            className: 'btn ghost'
+        });
+        removeBtn.textContent = '−';
+
+        removeBtn.addEventListener('click', () => row.remove());
+
+        row.appendChild(phoneInput);
+        row.appendChild(removeBtn);
+
+        $('#phonesList').appendChild(row);
+    }
+
+    function collectPhones() {
+        const phoneInputs = $$('#phonesList input[type="tel"]');
+        return phoneInputs.map(input => formatPhone(input.value)).filter(phone => phone.length > 0);
+    }
+
+    // Phone management functions for fake sites
+    function addFakeSitePhoneRow(phoneNumber='') {
+        const row = el('div', {
+            className: 'phone-row'
+        });
+
+        const phoneInput = el('input', {
+            type: 'tel',
+            placeholder: 'Es. +39 3xx xxx xxxx',
+            value: phoneNumber
+        });
+
+        const removeBtn = el('button', {
+            type: 'button',
+            className: 'btn ghost'
+        });
+        removeBtn.textContent = '−';
+
+        removeBtn.addEventListener('click', () => row.remove());
+
+        row.appendChild(phoneInput);
+        row.appendChild(removeBtn);
+
+        $('#fakeSitePhonesList').appendChild(row);
+    }
+
+    function collectFakeSitePhones() {
+        const phoneInputs = $$('#fakeSitePhonesList input[type="tel"]');
+        return phoneInputs.map(input => formatPhone(input.value)).filter(phone => phone.length > 0);
+    }
+
+    function addLinkRow(obj={
+        label: '',
+        url: ''
+    }) {
+        const presets = [
+        'Facebook', 'Instagram', 'TikTok', 'X / Twitter', 'YouTube', 'LinkedIn', 'Telegram', 'WhatsApp', 'Sito', 'Altro'
+        ];
+        const row = el('div');
+        row.style.display = 'grid';
+        row.style.gridTemplateColumns = '1.1fr 1.6fr auto';
+        row.style.gap = '8px';
+        row.style.marginBottom = '6px';
+
+        // Select for platform
+        const sel = el('select', {});
+        presets.forEach(name => {
+            const o = document.createElement('option');
+            o.value = name.toLowerCase();
+            o.textContent = name;
+            sel.appendChild(o);
+        });
+
+        // Custom label (only when "Altro")
+        const custom = el('input', {
+            type: 'text',
+            placeholder: 'Altro (specifica etichetta)'
+        });
+        custom.style.display = 'none';
+
+        // URL
+        const url = el('input', {
+            type: 'text',
+            placeholder: 'URL https://...',
+            value: obj.url || ''
+        });
+
+        // Remove button
+        const rm = el('button', {
+            type: 'button',
+            className: 'btn ghost'
+        });
+        rm.textContent = '−';
+
+        // Init state from obj.label
+        const label = (obj.label || '').trim();
+        const indexByLabel = (lbl) => {
+            const map = {
+                'facebook': 'facebook',
+                'instagram': 'instagram',
+                'tiktok': 'tiktok',
+                'twitter': 'x / twitter',
+                'x': 'x / twitter',
+                'x / twitter': 'x / twitter',
+                'youtube': 'youtube',
+                'linkedin': 'linkedin',
+                'telegram': 'telegram',
+                'whatsapp': 'whatsapp',
+                'sito': 'sito'
+            };
+            const key = (lbl || '').toLowerCase();
+            return map[key] || null;
+        };
+        const preset = indexByLabel(label);
+        if (preset) {
+            // Set to matching preset
+            Array.from(sel.options).forEach(o => {
+                if (o.textContent.toLowerCase() === preset)
+                    sel.value = o.value;
+            });
+        } else if (label) {
+            sel.value = 'altro';
+            custom.style.display = '';
+            custom.value = label;
+        } else {
+            // default
+            sel.value = 'facebook';
+        }
+
+        // Events
+        sel.addEventListener('change', () => {
+            if (sel.value === 'altro') {
+                custom.style.display = '';
+                custom.focus();
+            } else {
+                custom.style.display = 'none';
+                custom.value = '';
+            }
+        });
+        rm.addEventListener('click', () => row.remove());
+
+        // Compose
+        const labelBox = el('div');
+        labelBox.style.display = 'grid';
+        labelBox.style.gridTemplateColumns = '1fr';
+        labelBox.style.gap = '6px';
+        labelBox.appendChild(sel);
+        labelBox.appendChild(custom);
+
+        row.append(labelBox, url, rm);
+        $('#linksList').appendChild(row);
+    }
+
+
+
+    function collectLinks() {
+        const rows = $$('#linksList > div');
+        return rows.map(div => {
+            const sel = div.querySelector('select');
+            const url = (div.querySelector('input[placeholder^="URL"]')?.value || '').trim();
+            const custom = Array.from(div.querySelectorAll('input')).find(i => i.placeholder && i.placeholder.startsWith('Altro'));
+            let label = '';
+            if (sel) {
+                if (sel.value === 'altro') {
+                    label = (custom?.value || '').trim();
+                } else {
+                    label = (sel.options[sel.selectedIndex]?.textContent || '').trim();
+                }
+            }
+            return (label || url) ? {
+                label,
+                url
+            } : null;
+        }).filter(Boolean);
+    }
+
+
+    function placeholderAvatar() {
+        const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a1330'/><circle cx='50' cy='38' r='18' fill='%23121f4a'/><rect x='20' y='62' width='60' height='26' rx='13' fill='%23121f4a'/></svg>`;
+        return 'data:image/svg+xml;base64,' + btoa(svg);
+    }
+
+    // =============================
+    // Record Type Handlers (Modular Logic)
+    // =============================
+    const recordHandlers = {
+        person: {
+            validate: () => ($('#firstName').value.trim() || $('#lastName').value.trim()) ? true : 'Inserire almeno Nome o Cognome.',
+            buildPayload: (payload) => Object.assign(payload, {
+                firstName: $('#firstName').value.trim(),
+                lastName: $('#lastName').value.trim(),
+                scamType: $('#scamType').value.trim(),
+                cities: $('#cities').value.trim(),
+                residenceHint: $('#residenceHint').value.trim(),
+                phones: collectPhones(),
+                description: $('#description').value,
+                marks: $('#marks').value.trim(),
+                links: collectLinks(),
+                email: ($('#email')?.value || '').trim(),
+                aliases: ($('#aliases')?.value || '').trim(),
+                ibanCards: ($('#ibanCards')?.value || '').trim(),
+                dangerous: !!document.getElementById('dangerous')?.checked,
+            }),
+            getSearchIndex: (p) => `${p.lastName}_${p.firstName}`.toLowerCase(),
+            getSearchHay: (p) => [p.firstName, p.lastName, p.scamType, p.cities, p.residenceHint, p.email, p.aliases, p.ibanCards, (p.phones || []).join(' '), (p.dangerous ? 'recidivo pericoloso 🔥' : '')].join(' '),
+            renderCard: (p, nameEl, pills) => {
+                nameEl.textContent = `${p.firstName || ''} ${p.lastName || ''}`.trim() || 'Senza nome';
+                if (p.scamType)
+                    pills.innerHTML += `<div class="pill">${safe(p.scamType)}</div>`;
+                if (p.cities)
+                    pills.innerHTML += `<div class="pill">${safe(p.cities)}</div>`;
+            },
+            renderDetail: (p, addKv) => {
+                $('#detailBadge').textContent = 'Scheda Persona';
+                $('#detailTitle').textContent = `${p.firstName || ''} ${p.lastName || ''}`.trim();
+                addKv('Nome', p.firstName);
+                addKv('Cognome', p.lastName);
+                addKv('Tipo truffa', p.scamType);
+                addKv('Località colpite', p.cities);
+                addKv('Possibile residenza', p.residenceHint);
+                addKv('Email', p.email ? `<a href="mailto:${p.email}">${safe(p.email)}</a>` : '');
+                if (p.phones && p.phones.length > 0) {
+                    const phoneLinks = p.phones.map(phone => `<a href="tel:${phone}">${safe(phone)}</a>`).join('<br>');
+                    addKv('Telefono', phoneLinks);
+                }
+                addKv('Segni particolari', p.marks);
+                addKv('Alias', p.aliases);
+                addKv('IBAN/Carte', p.ibanCards);
+                addKv('Recidivo/Pericoloso', p.dangerous ? 'Sì (🔥)' : 'No');
+                $('#dDesc').textContent = p.description || '';
+                $('#detailDescContainer').style.display = p.description ? 'block' : 'none';
+                const links = $('#dLinks');
+                links.innerHTML = '';
+                (p.links || []).forEach(L => {
+                    if (L.url) {
+                        const a = el('a', {
+                            href: L.url,
+                            target: '_blank'
+                        });
+                        a.textContent = safe(L.label || L.url);
+                        links.appendChild(a);
+                    }
+                });
+                $('#detailLinksContainer').style.display = (p.links || []).length > 0 ? 'block' : 'none';
+            },
+            populateForm: (p) => {
+                $('#firstName').value = p.firstName || '';
+                $('#lastName').value = p.lastName || '';
+                $('#scamType').value = p.scamType || '';
+                $('#cities').value = p.cities || '';
+                $('#residenceHint').value = p.residenceHint || '';
+
+                // Populate phones
+                $('#phonesList').innerHTML = '';
+                if (p.phones && p.phones.length > 0) {
+                    p.phones.forEach(phone => addPhoneRow(phone));
+                } else {
+                    addPhoneRow();
+                }
+
+                $('#description').value = p.description || '';
+                $('#marks').value = p.marks || '';
+                if ($('#email'))
+                    $('#email').value = p.email || '';
+                if ($('#aliases'))
+                    $('#aliases').value = p.aliases || '';
+                if ($('#ibanCards'))
+                    $('#ibanCards').value = p.ibanCards || '';
+                $('#linksList').innerHTML = '';
+                (p.links || []).forEach(addLinkRow);
+                if ((p.links || []).length === 0)
+                    addLinkRow();
+                if (document.getElementById('dangerous'))
+                    document.getElementById('dangerous').checked = !!p.dangerous;
+            }
+        },
+        fakeSite: {
+            validate: () => $('#siteName').value.trim() ? true : 'Inserire il Nome del Sito.',
+            buildPayload: (p) => Object.assign(p, {
+                siteName: $('#siteName').value.trim(),
+                siteUrl: $('#siteUrl').value.trim(),
+                siteProducts: $('#siteProducts').value.trim(),
+                phones: collectFakeSitePhones(),
+                siteRegDate: (function(v) {
+                    try {
+                        return v ? new Date(v).toISOString() : ''
+                    } catch (_) {
+                        return v || ''
+                    }
+                })(($('#siteRegDate') ? $('#siteRegDate').value.trim() : ''))
+            }),
+            getSearchIndex: (p) => p.siteName.toLowerCase(),
+            getSearchHay: (p) => [p.siteName, p.siteProducts, p.siteUrl, (p.phones || []).join(' ')].join(' '),
+            renderCard: (p, nameEl, pills) => {
+                nameEl.textContent = p.siteName || 'Sito senza nome';
+                pills.innerHTML = `<div class="pill">Sito Fake</div>`;
+                if (p.siteProducts)
+                    pills.innerHTML += `<div class="pill">${safe(p.siteProducts)}</div>`;
+            },
+            renderDetail: (p, addKv) => {
+                $('#detailBadge').textContent = 'Scheda Sito Fake';
+                $('#detailTitle').textContent = p.siteName || 'Sito senza nome';
+                addKv('Nome Sito', p.siteName);
+                if (p.siteUrl)
+                    addKv('Link Sito', `<a href="${p.siteUrl}" target="_blank">${safe(p.siteUrl)}</a>`);
+                addKv('Cosa Vende', p.siteProducts);
+                if (p.phones && p.phones.length > 0) {
+                    const phoneLinks = p.phones.map(phone => `<a href="tel:${phone}">${safe(phone)}</a>`).join('<br>');
+                    addKv('Telefono', phoneLinks);
+                }
+                if (p.siteRegDate) {
+                    try {
+                        const d = new Date(p.siteRegDate);
+                        addKv('Registrazione dominio', d.toLocaleDateString());
+                        const SIX_MONTHS = 1000 * 60 * 60 * 24 * 182;
+                        const fresh = (Date.now() - d.getTime()) <= SIX_MONTHS;
+                        if (fresh) {
+                            addKv('Badge', '⚠️ Dominio recente: possibile rischio');
+                        }
+                    } catch (_) {
+                        addKv('Registrazione dominio', p.siteRegDate);
+                    }
+                }
+            },
+            populateForm: (p) => {
+                $('#siteName').value = p.siteName || '';
+                $('#siteUrl').value = p.siteUrl || '';
+                $('#siteProducts').value = p.siteProducts || '';
+
+                // Populate fake site phones
+                $('#fakeSitePhonesList').innerHTML = '';
+                if (p.phones && p.phones.length > 0) {
+                    p.phones.forEach(phone => addFakeSitePhoneRow(phone));
+                } else {
+                    addFakeSitePhoneRow();
+                }
+
+                if ($('#siteRegDate')) {
+                    $('#siteRegDate').value = p.siteRegDate || '';
+                }
+                const wi = document.getElementById('whoisInfo');
+                if (wi) {
+                    wi.textContent = p.siteRegDate ? ('Registrato: ' + (new Date(p.siteRegDate).toLocaleDateString())) : '';
+                }
+            }
+        },
+        simplified: {
+            validate: () => ($('#simpleFirstName').value.trim() || $('#simpleLastName').value.trim()) ? true : 'Inserire almeno Nome o Cognome.',
+            buildPayload: (p) => Object.assign(p, {
+                firstName: $('#simpleFirstName').value.trim(),
+                lastName: $('#simpleLastName').value.trim(),
+                scamType: $('#simpleScamType').value.trim(),
+            }),
+            getSearchIndex: (p) => `${p.lastName}_${p.firstName}`.toLowerCase(),
+            getSearchHay: (p) => [p.firstName, p.lastName, p.scamType].join(' '),
+            renderCard: (p, nameEl, pills) => {
+                nameEl.textContent = `${p.firstName || ''} ${p.lastName || ''}`.trim() || 'Senza nome';
+                if (p.scamType)
+                    pills.innerHTML += `<div class="pill">${safe(p.scamType)}</div>`;
+            },
+            renderDetail: (p, addKv) => {
+                $('#detailBadge').textContent = 'Scheda Semplice';
+                $('#detailTitle').textContent = `${p.firstName || ''} ${p.lastName || ''}`.trim();
+                addKv('Nome', p.firstName);
+                addKv('Cognome', p.lastName);
+                addKv('Tipo truffa', p.scamType);
+            },
+            populateForm: (p) => {
+                $('#simpleFirstName').value = p.firstName || '';
+                $('#simpleLastName').value = p.lastName || '';
+                $('#simpleScamType').value = p.scamType || '';
+            }
+        }
+    };
+
+    // =============================
+    // Main Application Logic
+    // =============================
+    async function renderList() {
+        const q = $('#q').value.trim().toLowerCase();
+        const typeFilter = $('#typeFilter').value;
+        const all = await getAll();
+        const filtered = all.filter(p => {
+            const typeMatch = (typeFilter === 'all' || p.recordType === typeFilter);
+            if (!typeMatch)
+                return false;
+
+            const hay = recordHandlers[p.recordType]?.getSearchHay(p) || '';
+            return hay.toLowerCase().includes(q);
+        });
+        // Ordina: più recenti in alto (prima updatedAt poi createdAt)
+        filtered.sort((a, b) => ((b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0)));
+
+        const grid = $('#cards');
+        grid.innerHTML = '';
+        filtered.forEach(p => {
+            const c = cardElement(p);
+            c.addEventListener('click', () => openDetail(p.id));
+            grid.appendChild(c);
+        });
+
+        // NUOVO: aggiorna conteggi categorie
+        const countPerson = all.filter(p => p.recordType === 'person').length;
+        const countFake = all.filter(p => p.recordType === 'fakeSite').length;
+        const countSimple = all.filter(p => p.recordType === 'simplified').length;
+        if (document.getElementById('countPerson')) {
+            document.getElementById('countPerson').textContent = countPerson;
+            document.getElementById('countFake').textContent = countFake;
+            document.getElementById('countSimple').textContent = countSimple;
+            const total = all.length;
+            if (document.getElementById('countAll')) {
+                document.getElementById('countAll').textContent = total;
+            }
+        }
+
+        $('#emptyState').style.display = filtered.length ? 'none' : 'block';
+    }
+
+    function cardElement(p) {
+        const tpl = $('#cardTpl').content.firstElementChild.cloneNode(true);
+        tpl.dataset.id = p.id;
+        tpl.setAttribute('data-type', p.recordType || 'person');
+        tpl.querySelector('img').src = (p.photoMain && p.photoMain.dataUrl) || placeholderAvatar();
+        const badge = tpl.querySelector('.flag-badge');
+        if (badge)
+            badge.classList.toggle('show', !!p.dangerous && p.recordType === 'person');
+        const fresh = tpl.querySelector('.fresh-badge');
+        if (fresh) {
+            let showFresh = false;
+            if (p.recordType === 'fakeSite' && p.siteRegDate) {
+                const reg = new Date(p.siteRegDate).getTime();
+                if (!isNaN(reg)) {
+                    const SIX_MONTHS = 1000 * 60 * 60 * 24 * 182; // ~6 mesi
+                    showFresh = (Date.now() - reg) <= SIX_MONTHS;
+                }
+            }
+            fresh.classList.toggle('show', showFresh);
+        }
+        const nameEl = tpl.querySelector('.name');
+        const pillsContainer = tpl.querySelector('.pills-container');
+        pillsContainer.innerHTML = '';
+
+        recordHandlers[p.recordType]?.renderCard(p, nameEl, pillsContainer);
+        return tpl;
+    }
+
+    async function openDetail(id) {
+        const p = await getOne(id);
+        if (!p)
+            return;
+        $('#detailBig').src = (p.photoMain && p.photoMain.dataUrl) || placeholderAvatar();
+
+        const metaContainer = $('#detailMeta');
+        metaContainer.innerHTML = ''; // Clear previous
+        const kv = el('div', {
+            className: 'kv'
+        });
+        const addKv = (label, value) => {
+            if (value) {
+                const l = el('div');
+                l.textContent = label;
+                const v = el('div');
+                v.innerHTML = value; // use innerHTML for links
+                kv.append(l, v);
+            }
+        }
+
+        $('#detailDescContainer').style.display = 'none';
+        $('#detailLinksContainer').style.display = 'none';
+
+        recordHandlers[p.recordType]?.renderDetail(p, addKv);
+
+        metaContainer.appendChild(kv);
+
+        const ph = $('#dPhotos');
+        ph.innerHTML = '';
+        (p.photos || []).forEach(pho => {
+            const im = el('img', {
+                src: pho.dataUrl,
+                alt: 'foto'
+            });
+            im.addEventListener('click', () => showLightbox(pho.dataUrl));
+            ph.appendChild(im);
+        });
+        $('#detailModal').classList.add('show');
+        $('#editFromModal').onclick = () => {
+            $('#detailModal').classList.remove('show');
+            populateForm(p);
+            scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        };
+
+        const delBtn = document.getElementById('deleteFromModal');
+        if (delBtn) {
+            delBtn.onclick = async () => {
+                if (confirm('Eliminare definitivamente questa scheda?')) {
+                    await deleteProfile(p.id);
+                    document.getElementById('detailModal').classList.remove('show');
+                    await renderList();
+                    showToast('Scheda eliminata.', 'ok');
+                }
+            };
+        }
+
+    }
+
+    function populateForm(p) {
+        clearForm();
+        $('#recordType').value = p.recordType || 'person';
+        handleRecordTypeChange();
+
+        $('#profileId').value = p.id || '';
+
+        recordHandlers[p.recordType]?.populateForm(p);
+
+        $('#mainPreview').innerHTML = '';
+        mainPhotoData = p.photoMain || null;
+        if (mainPhotoData) {
+            renderThumb($('#mainPreview'), mainPhotoData.dataUrl, true, () => {
+                mainPhotoData = null;
+                $('#mainPreview').innerHTML = '';
+            });
+        }
+        extraPhotosData = (p.photos || []).slice();
+        function renderListThumbs() {
+            $('#extraPreview').innerHTML = '';
+            extraPhotosData.forEach((ph, idx) => renderThumb($('#extraPreview'), ph.dataUrl, true, () => {
+                extraPhotosData.splice(idx, 1);
+                renderListThumbs();
+            }));
+        }
+        renderListThumbs();
+
+        $('#deleteBtn').style.display = p.id ? 'inline-flex' : 'none';
+        $('#formTitle').textContent = p.id ? 'Modifica scheda' : 'Nuova scheda';
+        $('#saveBtn').textContent = p.id ? 'Salva modifiche' : 'Salva scheda';
+    }
+
+    function showLightbox(src) {
+        $('#lightImg').src = src;
+        $('#lightbox').classList.add('show');
+    }
+
+    async function exportBackup() {
+        const data = await getAll();
+        if (data.length === 0) {
+            showToast('Nessuna scheda da esportare.', 'warn');
+            return;
+        }
+        const payload = {
+            version: 1,
+            exportedAt: Date.now(),
+            items: data
+        };
+        const blob = new Blob([JSON.stringify(payload)], {
+            type: 'application/json'
+        });
+        const a = el('a', {
+            download: `truffatori_backup_${new Date().toISOString().slice(0, 10)}.json`
+        });
+        a.href = URL.createObjectURL(blob);
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    }
+
+    async function importBackup(file) {
+        try {
+            const text = await file.text();
+            const json = JSON.parse(text);
+            if (!json || !Array.isArray(json.items))
+                throw new Error('Formato non valido');
+
+            // Mappa esistenti per firma
+            const existing = await getAll();
+            const sigToExisting = new Map(existing.map(e => [signatureKey(e), e]));
+
+            let added = 0,
+                updated = 0;
+
+            for (const item of json.items) {
+                const p = Object.assign({}, item);
+                if (!p.recordType)
+                    p.recordType = 'person';
+                delete p.id;
+
+                const sig = signatureKey(p);
+                const match = sigToExisting.get(sig);
+
+                const now = Date.now();
+                p.searchIndex = (recordHandlers[p.recordType]?.getSearchIndex?.(p)) || '';
+                p.createdAt = p.createdAt || now;
+                p.updatedAt = now;
+
+                if (match) {
+                    p.id = match.id;
+                    p.createdAt = match.createdAt || p.createdAt;
+                    await updateProfile(p);
+                    sigToExisting.set(sig, p);
+                    updated++;
+                } else {
+                    const newId = await addProfile(p);
+                    p.id = newId;
+                    sigToExisting.set(sig, p);
+                    added++;
+                }
+            }
+
+            showToast(`Ripristino completato. Aggiunti: ${added}, aggiornati: ${updated}.`, 'ok');
+            renderList();
+        } catch (err) {
+            showToast('Errore nel ripristino: ' + err.message, 'danger');
+        }
+    }
+
+    // =============================
+    // Event wiring
+    // =============================
+    function handleRecordTypeChange() {
+        const selectedType = $('#recordType').value;
+
+
+
+        $$('.form-section').forEach(section => {
+            const isVisible = section.dataset.type === selectedType;
+            section.style.display = isVisible ? 'block' : 'none';
+            // manage required attribute for validation
+            section.querySelectorAll('input, textarea').forEach(input => {
+                if (input.hasAttribute('data-required')) {
+                    input.required = isVisible;
+                }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        $('#recordType').addEventListener('change', handleRecordTypeChange);
+        $('#typeFilter').addEventListener('input', renderList);
+
+        $('#addLink').addEventListener('click', () => addLinkRow());
+        $('#addPhone').addEventListener('click', () => addPhoneRow());
+        $('#addFakeSitePhone').addEventListener('click', () => addFakeSitePhoneRow());
+        addLinkRow();
+        addPhoneRow();
+        addFakeSitePhoneRow();
+
+        $('#mainPhoto').addEventListener('change', async (e) => {
+            const f = e.target.files[0];
+            if (!f)
+                return;
+            try {
+                const dataUrl = await fileToDataURL(f);
+                mainPhotoData = {
+                    name: f.name,
+                    dataUrl
+                };
+                $('#mainPreview').innerHTML = '';
+                renderThumb($('#mainPreview'), dataUrl, true, () => {
+                    mainPhotoData = null;
+                    $('#mainPreview').innerHTML = '';
+                });
+            } catch (err) {
+                showToast('Errore nel caricare l\'immagine', 'danger');
+            }
+        });
+        $('#extraPhotos').addEventListener('change', async (e) => {
+            const files = Array.from(e.target.files || []);
+            for (const f of files) {
+                try {
+                    const dataUrl = await fileToDataURL(f);
+                    extraPhotosData.push({
+                        name: f.name,
+                        dataUrl
+                    });
+                } catch (err) {
+                    showToast(`Errore nel caricare ${f.name}`, 'danger');
+                    continue;
+                }
+            }
+            function re() {
+                $('#extraPreview').innerHTML = '';
+                extraPhotosData.forEach((ph, idx) => renderThumb($('#extraPreview'), ph.dataUrl, true, () => {
+                    extraPhotosData.splice(idx, 1);
+                    re();
+                }));
+            }
+            re();
+        });
+
+        $('#profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = Number($('#profileId').value || 0) || null;
+            const recordType = $('#recordType').value;
+            const handler = recordHandlers[recordType];
+
+            const validationResult = handler.validate();
+            if (validationResult !== true) {
+                showToast(validationResult, 'danger');
+                return;
+            }
+
+            const payload = {
+                id: id || undefined,
+                recordType: recordType,
+                photoMain: mainPhotoData || null,
+                photos: extraPhotosData.slice(),
+            };
+
+            handler.buildPayload(payload);
+            payload.searchIndex = handler.getSearchIndex(payload);
+
+            const now = Date.now();
+            if (id) {
+                payload.updatedAt = now;
+                await updateProfile(payload);
+            }
+            else {
+                payload.createdAt = now;
+                payload.updatedAt = now;
+                const newId = await addProfile(payload);
+                payload.id = newId;
+            }
+
+            showToast(id ? 'Scheda aggiornata!' : 'Scheda salvata!', 'ok');
+            if (!id)
+                clearForm(); // Clear form only on new entry
+
+            await renderList();
+        });
+
+        $('#resetBtn').addEventListener('click', clearForm);
+        $('#deleteBtn').addEventListener('click', async () => {
+            const id = Number($('#profileId').value || 0);
+            if (!id)
+                return;
+            if (confirm('Eliminare definitivamente questa scheda?')) {
+                await deleteProfile(id);
+                clearForm();
+                renderList();
+                showToast('Scheda eliminata.', 'ok');
+            }
+        });
+
+        $('#newBtn').addEventListener('click', () => {
+            clearForm();
+            scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        // New backup dropdown bindings
+        const __bm = document.getElementById('backupMenuBtn');
+        const __mm = document.getElementById('backupMenu');
+        const __bj = document.getElementById('backupJson');
+        const __bz = document.getElementById('backupZip');
+        if (__bm && __mm) {
+            __bm.addEventListener('click', (e) => {
+                e.stopPropagation();
+                __mm.classList.toggle('show');
+            });
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropdown'))
+                    __mm.classList.remove('show');
+            });
+        }
+        if (__bj)
+            __bj.addEventListener('click', () => {
+                __mm && __mm.classList.remove('show');
+                exportBackup();
+            });
+        if (__bz)
+            __bz.addEventListener('click', () => {
+                __mm && __mm.classList.remove('show');
+                if (typeof exportBackupZip === 'function')
+                    exportBackupZip();
+            });
+        const __rf = document.getElementById('restoreFile');
+        if (__rf) {
+            __rf.addEventListener('change', async (e) => {
+                const f = e.target.files[0];
+                if (f)
+                    await (typeof handleImportFile === 'function' ? handleImportFile(f) : importBackup(f));
+                e.target.value = '';
+            });
+        }
+        $('#q').addEventListener('input', renderList);
+        $('#clearSearch').addEventListener('click', () => {
+            $('#q').value = '';
+            renderList();
+        });
+        $('#closeModal').addEventListener('click', () => $('#detailModal').classList.remove('show'));
+        $('#lightbox').addEventListener('click', () => $('#lightbox').classList.remove('show'));
+        $('#helpBtn').addEventListener('click', () => {
+            showToast('Uso rapido: Compila, Salva, Esplora. Usa Backup!', 'ok');
+        });
+
+        // NUOVO: Gestore per il pulsante "Rimuovi duplicati"
+        $('#removeDuplicatesBtn').addEventListener('click', async () => {
+            const confirmMessage = 'Questa azione analizzerà il database alla ricerca di schede duplicate e rimuoverà le versioni più vecchie, mantenendo solo le più recenti.\n\nVuoi continuare?';
+
+            if (confirm(confirmMessage)) {
+                try {
+                    await removeDuplicates();
+                } catch (error) {
+                    showToast('Errore durante la rimozione duplicati: ' + error.message, 'danger');
+                }
+            }
+        });
+
+        // Gestore per il pulsante "Cancella tutto dal DB"
+        $('#clearAllBtn').addEventListener('click', async () => {
+            const confirmMessage = 'ATTENZIONE: Questa azione eliminerà TUTTE le schede dal database in modo permanente.\n\nSei sicuro di voler procedere?\n\nConsiglio: Crea prima un backup per sicurezza.';
+
+            if (confirm(confirmMessage)) {
+                const doubleCheck = confirm('Ultima conferma: Eliminare TUTTO il contenuto del database?');
+
+                if (doubleCheck) {
+                    try {
+                        await clearAllDatabase();
+                        clearForm(); // Pulisce anche il form
+                        await renderList(); // Aggiorna la lista (che sarà vuota)
+                        showToast('Database completamente svuotato!', 'ok');
+                    } catch (error) {
+                        showToast('Errore durante la cancellazione: ' + error.message, 'danger');
+                    }
+                }
+            }
+        });
+
+        // Primo render e setup
+        handleRecordTypeChange();
+        renderList();
+    });
+
+    // === Counts filter wiring ===
+    (function() {
+        function syncActiveCard(value) {
+            document.querySelectorAll('.count-card').forEach(card => {
+                const f = card.getAttribute('data-filter');
+                if (!value || value === 'all') {
+                    card.classList.remove('active');
+                } else {
+                    card.classList.toggle('active', f === value);
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const select = document.getElementById('typeFilter');
+            document.querySelectorAll('.count-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const current = select.value || 'all';
+                    const target = this.getAttribute('data-filter') || 'all';
+                    // If clicking the already active filter, reset to 'all'
+                    const next = (current === target) ? 'all' : target;
+                    select.value = next;
+                    // Trigger list refresh
+                    if (typeof renderList === 'function')
+                        renderList();
+                    // Visual state
+                    syncActiveCard(next);
+                });
+            });
+            // Keep highlight in sync if user changes the select manually
+            if (select) {
+                select.addEventListener('change', function() {
+                    syncActiveCard(this.value);
+                });
+                syncActiveCard(select.value);
+            }
+        });
+    })();
+
+    // WHOIS button wiring
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('whoisBtn');
+        if (!btn)
+            return;
+        btn.addEventListener('click', async () => {
+            const raw = (document.getElementById('siteUrl').value || document.getElementById('siteName').value || '').trim();
+            const domain = extractDomain(raw);
+            const info = document.getElementById('whoisInfo');
+            if (!domain) {
+                info && (info.textContent = 'Inserisci un dominio o URL valido.');
+                showToast('Dominio/URL non valido', 'warn');
+                return;
+            }
+            info && (info.textContent = 'Interrogo RDAP...');
+            try {
+                const data = await queryRDAP(domain);
+                const reg = rdapEventDate(data, 'registration');
+                const exp = rdapEventDate(data, 'expiration');
+                const registrar = rdapRegistrar(data);
+                const fmt = d => d ? new Date(d).toLocaleDateString() : 'n/d';
+                const html = `Dominio: <strong>${domain}</strong> • Registrazione: <strong>${fmt(reg)}</strong>${exp ? ` • Scadenza: <strong>${fmt(exp)}</strong>` : ''}${registrar ? ` • Registrar: <strong>${registrar}</strong>` : ''}`;
+                if (document.getElementById('siteRegDate'))
+                    document.getElementById('siteRegDate').value = reg || '';
+                if (info)
+                    info.innerHTML = html;
+                showToast('WHOIS (RDAP) recuperato', 'ok');
+            } catch (e) {
+                if (info)
+                    info.textContent = 'Impossibile recuperare RDAP (CORS/TLD non supportato).';
+                showToast('WHOIS non disponibile', 'warn');
+            }
+        });
+    });
+    </script>
+
+    <script>
+    // === Matrix code rain ===
+    (function() {
+        const gate = document.getElementById('pinGate');
+        const canvas = document.getElementById('matrix');
+        let ctx,
+            W,
+            H,
+            cols,
+            drops,
+            rafId;
+        function resize() {
+            if (!canvas)
+                return;
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+            cols = Math.floor(W / 16);
+            drops = Array(cols).fill(0);
+        }
+        function tick() {
+            if (!ctx)
+                ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'rgba(0,0,0,0.08)';
+            ctx.fillRect(0, 0, W, H);
+            ctx.fillStyle = '#39ff88';
+            ctx.font = '16px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                ctx.fillText(text, i * 16, drops[i] * 16);
+                if (drops[i] * 16 > H && Math.random() > 0.975)
+                    drops[i] = 0;
+                drops[i]++;
+            }
+            rafId = requestAnimationFrame(tick);
+        }
+        function start() {
+            resize();
+            cancelAnimationFrame(rafId);
+            tick();
+            window.addEventListener('resize', resize);
+        }
+        function stop() {
+            cancelAnimationFrame(rafId);
+            window.removeEventListener('resize', resize);
+        }
+        gate.__matrix = {
+            start,
+            stop
+        };
+    })();
+
+    // === PIN logic (local only) ===
+    (function() {
+        const $ = (s, r=document) => r.querySelector(s);
+        const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+        const gate = $('#pinGate');
+        const dots = $$('#pinDots .dot');
+        const msg = $('#gateMsg');
+        const btnConfirm = $('#gateConfirm');
+        const btnCancel = $('#gateCancel');
+        const subtitle = $('#gateSubtitle');
+        const pinBtn = document.getElementById('pinSettingsBtn');
+
+        let mode = 'unlock'; // 'unlock' | 'set1' | 'set2'
+        let buffer = '';
+        let firstPin = '';
+        const MAX = 4;
+
+        function updateDots() {
+            dots.forEach((d, i) => d.classList.toggle('fill', i < buffer.length));
+            btnConfirm.disabled = buffer.length !== MAX;
+        }
+        function clearBuffer() {
+            buffer = '';
+            updateDots();
+        }
+        function shake() {
+            const card = gate.querySelector('.gate-card');
+            card.classList.remove('error');
+            card.offsetWidth;
+            card.classList.add('error');
+        }
+
+        async function sha256Hex(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        function randomHex(n=8) {
+            const a = new Uint8Array(n);
+            crypto.getRandomValues(a);
+            return Array.from(a).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function isPinSet() {
+            return !!localStorage.getItem('pinHash') && !!localStorage.getItem('pinSalt');
+        }
+        function setPinButtonLabel() {
+            const el = pinBtn;
+            if (!el)
+                return;
+            el.textContent = isPinSet() ? '🔒 Modifica PIN' : '🔒 Aggiungi PIN locale';
+        }
+
+        async function verify(pin) {
+            const salt = localStorage.getItem('pinSalt') || '';
+            const want = localStorage.getItem('pinHash') || '';
+            const got = await sha256Hex(pin + salt);
+            return got === want;
+        }
+
+        async function savePin(pin) {
+            const salt = randomHex(8);
+            const hash = await sha256Hex(pin + salt);
+            localStorage.setItem('pinSalt', salt);
+            localStorage.setItem('pinHash', hash);
+        }
+
+        function show(modeWanted) {
+            mode = modeWanted || (isPinSet() ? 'unlock' : 'set1');
+            gate.classList.add('show');
+            gate.setAttribute('aria-hidden', 'false');
+            subtitle.textContent = mode === 'unlock' ? 'Inserisci PIN' : (mode === 'set1' ? 'Imposta un PIN a 4 cifre' : 'Conferma PIN');
+            msg.textContent = '';
+            clearBuffer();
+            gate.__matrix && gate.__matrix.start();
+            // Disable cancel on forced unlock
+            btnCancel.style.display = mode === 'unlock' ? 'none' : 'inline-flex';
+            btnConfirm.textContent = mode === 'unlock' ? 'Accedi' : (mode === 'set1' ? 'Continua' : 'Salva');
+        }
+        function hide() {
+            gate.classList.remove('show');
+            gate.setAttribute('aria-hidden', 'true');
+            gate.__matrix && gate.__matrix.stop();
+        }
+
+        // Numeric keypad
+        gate.addEventListener('click', async (e) => {
+            const t = e.target;
+            if (t.matches('[data-key]')) {
+                if (buffer.length < MAX) {
+                    buffer += t.getAttribute('data-key');
+                    updateDots();
+                }
+            } else if (t.matches('[data-action="back"]')) {
+                buffer = buffer.slice(0, -1);
+                updateDots();
+            } else if (t.matches('[data-action="clear"]')) {
+                clearBuffer();
+            }
+        });
+
+        // Confirm/Cancel
+        btnConfirm.addEventListener('click', async () => {
+            if (buffer.length !== MAX)
+                return;
+            if (mode === 'unlock') {
+                if (await verify(buffer)) {
+                    hide();
+                    if (typeof showToast === 'function')
+                        showToast('Accesso consentito.', 'ok');
+                } else {
+                    msg.textContent = 'PIN errato.';
+                    clearBuffer();
+                    shake();
+                }
+            } else if (mode === 'set1') {
+                firstPin = buffer;
+                clearBuffer();
+                mode = 'set2';
+                subtitle.textContent = 'Conferma PIN';
+                btnConfirm.textContent = 'Salva';
+            } else if (mode === 'set2') {
+                if (buffer !== firstPin) {
+                    msg.textContent = 'I due PIN non coincidono.';
+                    shake();
+                    clearBuffer();
+                    return;
+                }
+                await savePin(buffer);
+                setPinButtonLabel();
+                hide();
+                if (typeof showToast === 'function')
+                    showToast('PIN salvato localmente.', 'ok');
+
+            }
+        });
+        // On next load, gate will ask for PIN
+        btnCancel.addEventListener('click', () => hide());
+
+        // Settings button
+        if (pinBtn) {
+            pinBtn.addEventListener('click', () => {
+                show(isPinSet() ? 'set1' : 'set1');
+            });
+        }
+
+        // Keyboard support
+        window.addEventListener('keydown', (e) => {
+            if (!gate.classList.contains('show'))
+                return;
+            if (/^\d$/.test(e.key)) {
+                if (buffer.length < MAX) {
+                    buffer += e.key;
+                    updateDots();
+                }
+            } else if (e.key === 'Backspace') {
+                buffer = buffer.slice(0, -1);
+                updateDots();
+            } else if (e.key === 'Enter') {
+                btnConfirm.click();
+            } else if (e.key === 'Escape') {
+                btnCancel.click();
+            }
+        });
+
+        // On load: if PIN exists, require unlock
+        document.addEventListener('DOMContentLoaded', () => {
+            setPinButtonLabel();
+            if (isPinSet()) {
+                show('unlock');
+            }
+        });
+    })();
+    </script>
+
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"97549f3b48cf77fa","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
+<script id="html_badge_script1">
+</script>
